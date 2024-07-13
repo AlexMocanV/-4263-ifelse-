@@ -1,0 +1,50 @@
+#include <fstream>
+#include <stack>
+#include <sstream>
+std::string nume="ifelse";
+std::ifstream fin(nume+".in");
+std::ofstream fout(nume+".out");
+std::stack<std::string>s;
+std::string str;
+int main()
+{
+    
+    std::string n;
+    getline(fin,n);
+    int nouln=stoi(n);
+    for(int i=0;i<nouln;i++)
+    {
+        int modif=0;
+        int nrd=0;
+        while(!s.empty())
+        {
+            s.pop();
+        }
+        std::string line;
+        getline(fin,line);
+        std::istringstream iss(line);
+        while(iss>>str)
+        {
+            nrd++;
+            if(str=="else"&&s.empty())
+            {
+                modif++;
+                s.push("if");
+            }
+            else if(str=="else")
+            {
+                s.pop();
+            }
+            else s.push(str);
+        }
+        if(s.size()%2==1)
+        {
+            fout<<-1<<'\n';
+        }
+        else 
+        {
+            fout<<(int)s.size()/2+modif<<'\n';
+        }
+    }
+    return 0;
+}
